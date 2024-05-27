@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButtonBack"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="1dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/back_button_description"
+                android:onClick="onBackButtonClicked"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back" />
+
+
+            <TextView
+                android:id="@+id/BookingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:padding="1dp"
+                android:paddingBottom="16dp"
+                android:text="Booking"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <!-- Payment Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Information"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/editTextCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            android:inputType="number"/>
+
+        <EditText
+            android:id="@+id/editTextCardExpiry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Expiry Date (MM/YY)"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/editTextCardCVV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CVV"
+            android:inputType="numberPassword"/>
+
+        <EditText
+            android:id="@+id/editTextCardHolderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Holder Name"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/buttonPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background"
+            android:text="Pay"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Feedback Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feedback"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1.0"/>
+
+        <EditText
+            android:id="@+id/editTextFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write your feedback here..."
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:lines="4"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/buttonSubmitFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Feedback"
+            android:background="@drawable/background"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

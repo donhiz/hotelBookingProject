@@ -1,0 +1,32 @@
+{
+  "hotels": [
+    {
+      "name": "Luxury Paradise Hotel",
+      "location": "123 Main Street, Cityville, USA",
+      "description": "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.",
+      "price_per_night": "$300",
+      "image_url": "https://example.com/luxury_paradise_hotel.jpg"
+    },
+    {
+      "name": "Seaside Resort & Spa",
+      "location": "456 Beach Avenue, Oceanfront, USA",
+      "description": "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.",
+      "price_per_night": "$250",
+      "image_url": "https://example.com/seaside_resort_spa.jpg"
+    },
+    {
+      "name": "Mountain Lodge Retreat",
+      "location": "789 Pine Trail, Mountain Town, USA",
+      "description": "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.",
+      "price_per_night": "$200",
+      "image_url": "https://example.com/mountain_lodge_retreat.jpg"
+    },
+    {
+      "name": "Urban Boutique Hotel",
+      "location": "101 Downtown Avenue, Metropolis, USA",
+      "description": "Immerse yourself in city life at our chic boutique hotel. Discover trendy shops, vibrant nightlife, and cultural attractions just steps away.",
+      "price_per_night": "$180",
+      "image_url": "https://example.com/urban_boutique_hotel.jpg"
+    }
+  ]
+}

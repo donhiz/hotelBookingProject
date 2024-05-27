@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="16dp"
+            android:layout_height="42dp"
+            android:layout_margin="1dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/back_button_description"
+            android:onClick="onBackButtonClicked"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back" />
+
+
+        <TextView
+            android:id="@+id/OptionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:padding="1dp"
+            android:paddingBottom="16dp"
+            android:text="Option"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+
+
+    <!-- SearchView for hotel search -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/search_bkg"
+        app:closeIcon="@drawable/baseline_add_circle_24"
+        app:iconifiedByDefault="false"
+        app:queryHint="Search..."
+        app:searchHintIcon="@null"
+        app:searchIcon="@drawable/baseline_search_24" />
+
+    <!-- Date selection -->
+    <Button
+        android:id="@+id/selectDateButton"
+        android:layout_width="386dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Select Date" />
+
+    <!-- Location selection -->
+    <Spinner
+        android:id="@+id/locationSpinner"
+        android:layout_width="389dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/filterButton"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="100dp"
+            android:background="@drawable/background"
+            android:backgroundTint="@color/purple"
+            android:text="Filter" />
+
+        <Button
+            android:id="@+id/SearchButton"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/background"
+            android:backgroundTint="@color/purple"
+            android:text="Search" />
+    </LinearLayout>
+
+    <!-- RecyclerView for hotel list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:scrollbars="vertical" />
+
+</LinearLayout>
