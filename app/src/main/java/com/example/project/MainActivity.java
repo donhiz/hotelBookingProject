@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 
 
 
-//        requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
-//        fetchHotelData();
+        requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
+        fetchHotelData();
 
         // Set up search functionality
         setupSearchView();
