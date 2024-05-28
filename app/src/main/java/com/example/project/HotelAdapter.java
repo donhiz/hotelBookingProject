@@ -36,13 +36,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         holder.nameTextView.setText(hotel.getName());
         holder.locationTextView.setText(hotel.getLocation());
         holder.priceTextView.setText(hotel.getPrice());
-        holder.hotelBedTextView.setText("Beds: " + hotel.getBed());
-        holder.hotelBathTextView.setText("Baths: " + hotel.getBath());
 
-        // Ensure the wifiTextView is visible and set correctly
-        holder.hotelWifiTextView.setVisibility(View.VISIBLE);
-        String wifiAvailability = hotel.isWifi() ? "Yes" : "No";
-        holder.hotelWifiTextView.setText("WiFi: " + wifiAvailability);
     }
 
     @Override
@@ -67,9 +61,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             nameTextView = itemView.findViewById(R.id.hotelName);
             locationTextView = itemView.findViewById(R.id.hotelLocation);
             priceTextView = itemView.findViewById(R.id.hotelPrice);
-            hotelBedTextView = itemView.findViewById(R.id.hotelBeds);
-            hotelBathTextView = itemView.findViewById(R.id.hotelBaths);
-            hotelWifiTextView = itemView.findViewById(R.id.hotelWifi);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

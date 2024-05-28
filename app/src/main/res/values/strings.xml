@@ -57,5 +57,8 @@
     <string name="cvv">CVV</string>
     <string name="pay">Pay</string>
     <string name="booking">Booking</string>
+    <string name="beds">Beds</string>
+    <string name="baths">Baths</string>
+    <string name="wi_fi">Wi-Fi</string>
 
 </resources>

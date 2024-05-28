@@ -49,11 +49,11 @@ public class Hotel {
         return rating;
     }
 
-    public int getBed() {
+    public int getBeds() {
         return numBed;
     }
 
-    public int getBath() {
+    public int getBaths() {
         return bath;
     }
 

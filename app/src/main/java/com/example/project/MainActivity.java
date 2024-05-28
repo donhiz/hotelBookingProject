@@ -349,14 +349,13 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     }
 
     private void addSampleHotels() {
-        // Add sample hotel data to the list
         hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "123 Main Street, Cityville, USA", "$100/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Wonderful", 2, 1, true));
         hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Very Good", 1, 1, true));
         hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Good", 2, 1, true));
 
-        // Notify the adapter that data has changed
         hotelAdapter.notifyDataSetChanged();
     }
+
 
 
     private void searchList(String text) {
@@ -421,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 
 
 
-
+// if you want to add details in details activity create class and add here
 
     @Override
     public void onItemClick(int position) {
@@ -432,6 +431,10 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         intent.putExtra("hotelPrice", hotel.getPrice());
         intent.putExtra("hotelImage", hotel.getImageResId());
         intent.putExtra("hotelDescription", hotel.getDescription());
+        intent.putExtra("hotelRating", hotel.getRating());
+        intent.putExtra("numberOfBeds", hotel.getBeds());
+        intent.putExtra("numberOfBaths", hotel.getBaths());
+        intent.putExtra("hasWifi", hotel.isWifi());
         startActivity(intent);
         Toast.makeText(this, "Clicked: " + hotel.getName(), Toast.LENGTH_SHORT).show();
     }
