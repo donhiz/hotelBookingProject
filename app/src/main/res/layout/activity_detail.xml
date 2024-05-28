@@ -147,12 +147,16 @@
         </LinearLayout>
 
         <!-- Google Map -->
-        <fragment
-            android:id="@+id/mapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <!-- fragment_location.xml -->
+
+
+        <FrameLayout
+            android:id="@+id/mapContainer"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp" />
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
             android:layout_width="wrap_content"
