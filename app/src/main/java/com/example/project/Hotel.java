@@ -7,34 +7,22 @@ public class Hotel {
     private String price;
     private String description;
     private String rating;
-    private String type;
+
     private int numBed;
 
-    public Hotel(int imageResId, String name, String location, String price, String description, String rating, String type, int numBed) {
+    private int bath;
+    private boolean wifi;
+
+    public Hotel(int imageResId, String name, String location, String price, String description, String rating, int numBed, int bath, boolean wifi) {
         this.imageResId = imageResId;
         this.name = name;
         this.location = location;
         this.price = price;
         this.description = description;
         this.rating = rating;
-        this.type = type;
         this.numBed = numBed;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getNumBed() {
-        return numBed;
+        this.bath = bath;
+        this.wifi = wifi;
     }
 
     public int getImageResId() {
@@ -49,7 +37,27 @@ public class Hotel {
         return location;
     }
 
-    public  String getPrice() {
+    public String getPrice() {
         return price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public int getBed() {
+        return numBed;
+    }
+
+    public int getBath() {
+        return bath;
+    }
+
+    public boolean isWifi() {
+        return wifi;
     }
 }

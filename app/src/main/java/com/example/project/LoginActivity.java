@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Check if the entered username and password match the saved values
                 if (enteredUsername.equals("user") && enteredPassword.equals("1234")) {
+                    handleLogin();
                     // Login successful, save user credentials to SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", enteredUsername);

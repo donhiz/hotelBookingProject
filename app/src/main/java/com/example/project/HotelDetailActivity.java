@@ -48,14 +48,20 @@ public class HotelDetailActivity extends AppCompatActivity implements OnMapReady
         final TextView locationTextView = findViewById(R.id.detailLocation);
         final TextView priceTextView = findViewById(R.id.detailPrice);
         final ImageView imageView = findViewById(R.id.detailImage);
-        int hotelImageResId = 0; // Declare hotelImageResId outside the if statement
+        final TextView bedTextView = findViewById(R.id.bedTxt);
+        final TextView bathTextView = findViewById(R.id.bathTxt);
+        final TextView wifiTextView = findViewById(R.id.wifiTxt);
+        int hotelImageResId = 0;
 
         if (extras != null) {
             String hotelName = extras.getString("hotelName");
             String hotelLocation = extras.getString("hotelLocation");
             String hotelPrice = extras.getString("hotelPrice");
-            hotelImageResId = extras.getInt("hotelImage"); // Assign the value here
+            hotelImageResId = extras.getInt("hotelImage");
             String hotelDescription = extras.getString("hotelDescription");
+            int numberOfBeds = extras.getInt("numberOfBeds");
+            int numberOfBaths = extras.getInt("numberOfBaths");
+            boolean hasWifi = extras.getBoolean("hasWifi");
             latitude = extras.getDouble("latitude");
             longitude = extras.getDouble("longitude");
 
@@ -65,15 +71,17 @@ public class HotelDetailActivity extends AppCompatActivity implements OnMapReady
             priceTextView.setText(hotelPrice);
 
             TextView descriptionTextView = findViewById(R.id.detailDescription);
-
             imageView.setImageResource(hotelImageResId);
             descriptionTextView.setText(hotelDescription);
+            bedTextView.setText(String.valueOf(numberOfBeds));
+            bathTextView.setText(String.valueOf(numberOfBaths));
+            wifiTextView.setText(hasWifi ? "Yes" : "No");
         }
 
-// Declare final variable for hotelImageResId
+        // Declare final variable for hotelImageResId
         final int finalHotelImageResId = hotelImageResId;
 
-// Book now button functionality
+        // Book now button functionality
         Button bookNowButton = findViewById(R.id.bookButton);
         bookNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +93,7 @@ public class HotelDetailActivity extends AppCompatActivity implements OnMapReady
                 intent.putExtra("hotelName", nameTextView.getText().toString());
                 intent.putExtra("hotelLocation", locationTextView.getText().toString());
                 intent.putExtra("hotelPrice", priceTextView.getText().toString());
-                intent.putExtra("hotelImage", finalHotelImageResId);  // Use the final variable here
+                intent.putExtra("hotelImage", finalHotelImageResId);
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
 
@@ -95,8 +103,7 @@ public class HotelDetailActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
-
-        @Override
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker at the hotel location and move the camera

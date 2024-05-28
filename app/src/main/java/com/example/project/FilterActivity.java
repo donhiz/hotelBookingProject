@@ -16,7 +16,6 @@ public class FilterActivity extends AppCompatActivity {
     private CheckBox checkBoxWonderful,checkBoxVeryGood,checkBoxGood;
     private SeekBar seekBarPrice;
     private CheckBox checkBoxHotel, checkBoxMotel;
-    private CheckBox checkBoxDowntown, checkBoxUnionStation;
     private CheckBox checkBox1Bed, checkBox2Beds;
     private Button btnDone;
 
@@ -31,8 +30,6 @@ public class FilterActivity extends AppCompatActivity {
         seekBarPrice = findViewById(R.id.seekBarPrice);
         checkBoxHotel = findViewById(R.id.checkBoxHotel);
         checkBoxMotel = findViewById(R.id.checkBoxMotel);
-        checkBoxDowntown = findViewById(R.id.checkBoxDowntown);
-        checkBoxUnionStation = findViewById(R.id.checkBoxUnionStation);
         checkBox1Bed = findViewById(R.id.checkBox1Bed);
         checkBox2Beds = findViewById(R.id.checkBox2Beds);
         btnDone = findViewById(R.id.btnApplyFilter);
@@ -46,8 +43,6 @@ public class FilterActivity extends AppCompatActivity {
                 int maxPrice = seekBarPrice.getProgress();
                 boolean isHotelSelected = checkBoxHotel.isChecked();
                 boolean isMotelSelected = checkBoxMotel.isChecked();
-                boolean isDowntownSelected = checkBoxDowntown.isChecked();
-                boolean isUnionStationSelected = checkBoxUnionStation.isChecked();
                 boolean is1BedSelected = checkBox1Bed.isChecked();
                 boolean is2BedsSelected = checkBox2Beds.isChecked();
 
@@ -60,8 +55,6 @@ public class FilterActivity extends AppCompatActivity {
                 intent.putExtra("maxPrice", maxPrice);
                 intent.putExtra("isHotelSelected", isHotelSelected);
                 intent.putExtra("isMotelSelected", isMotelSelected);
-                intent.putExtra("isDowntownSelected", isDowntownSelected);
-                intent.putExtra("isUnionStationSelected", isUnionStationSelected);
                 intent.putExtra("is1BedSelected", is1BedSelected);
                 intent.putExtra("is2BedsSelected", is2BedsSelected);
                 setResult(RESULT_OK, intent);

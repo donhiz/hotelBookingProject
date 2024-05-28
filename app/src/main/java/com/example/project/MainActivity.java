@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     private boolean isWonderfulSelected, isVeryGoodSelected, isGoodSelected;
     private int maxPrice;
     private boolean isHotelSelected, isMotelSelected;
-    private boolean isDowntownSelected, isUnionStationSelected;
     private boolean is1BedSelected, is2BedsSelected;
     private static final int FILTER_REQUEST_CODE = 1;
 
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         // Set RecyclerView layout manager and adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(hotelAdapter);
-        startActivityForResult(new Intent(this, FilterActivity.class), 1);
+//        startActivityForResult(new Intent(this, FilterActivity.class), 1);
 
 
 
@@ -240,58 +239,54 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 //    }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Retrieve filter criteria from the Intent
-            boolean isWonderfulSelected = data.getBooleanExtra("isWonderfulSelected", false);
-            boolean isVeryGoodSelected = data.getBooleanExtra("isVeryGoodSelected", false);
-            boolean isGoodSelected = data.getBooleanExtra("isGoodSelected", false);
-            int maxPrice = data.getIntExtra("maxPrice", 0);
-            boolean isHotelSelected = data.getBooleanExtra("isHotelSelected", false);
-            boolean isMotelSelected = data.getBooleanExtra("isMotelSelected", false);
-            boolean isDowntownSelected = data.getBooleanExtra("isDowntownSelected", false);
-            boolean isUnionStationSelected = data.getBooleanExtra("isUnionStationSelected", false);
-            boolean is1BedSelected = data.getBooleanExtra("is1BedSelected", false);
-            boolean is2BedsSelected = data.getBooleanExtra("is2BedsSelected", false);
-
-
-
-            // Apply filter criteria to the hotel list
-            List<Hotel> filteredHotelList = applyFilterCriteria(isWonderfulSelected, isVeryGoodSelected, isGoodSelected,
-                    maxPrice, isHotelSelected, isMotelSelected, isDowntownSelected, isUnionStationSelected,
-                    is1BedSelected, is2BedsSelected);
-
-            // Update RecyclerView with filtered hotel list
-            hotelAdapter.setSearchList(filteredHotelList);
-        }
-    }
-
-    // Method to apply filter criteria to the hotel list
-    private List<Hotel> applyFilterCriteria(boolean isWonderfulSelected, boolean isVeryGoodSelected, boolean isGoodSelected,
-                                            int maxPrice, boolean isHotelSelected, boolean isMotelSelected,
-                                            boolean isDowntownSelected, boolean isUnionStationSelected,
-                                            boolean is1BedSelected, boolean is2BedsSelected) {
-        List<Hotel> filteredList = new ArrayList<>();
-
-        // Apply filter logic here based on the criteria passed
-
-        // Example: Loop through the original hotel list and add hotels that meet the filter criteria to the filtered list
-
-
-        for (Hotel hotel : hotelList) {
-            int hotelPrice = Integer.parseInt(hotel.getPrice().replace("$", "").replaceAll("/per night", "").trim());
-            // Check if the hotel meets the filter criteria and add it to the filtered list if it does
-            // Example: Check if the hotel's price is within the maxPrice range and other criteria like type, location, etc.
-            if (hotelPrice <= maxPrice && ((isHotelSelected && hotel.getType().equals("Hotel")) || (isMotelSelected && hotel.getType().equals("Motel")))) {
-                // Add the hotel to the filtered list
-                filteredList.add(hotel);
-            }
-        }
-
-
-        return filteredList;
-    }
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
+//            // Retrieve filter criteria from the Intent
+//            boolean isWonderfulSelected = data.getBooleanExtra("isWonderfulSelected", false);
+//            boolean isVeryGoodSelected = data.getBooleanExtra("isVeryGoodSelected", false);
+//            boolean isGoodSelected = data.getBooleanExtra("isGoodSelected", false);
+//            int maxPrice = data.getIntExtra("maxPrice", 0);
+//            boolean isHotelSelected = data.getBooleanExtra("isHotelSelected", false);
+//            boolean isMotelSelected = data.getBooleanExtra("isMotelSelected", false);
+//            boolean is1BedSelected = data.getBooleanExtra("is1BedSelected", false);
+//            boolean is2BedsSelected = data.getBooleanExtra("is2BedsSelected", false);
+//
+//
+//
+//            // Apply filter criteria to the hotel list
+//            List<Hotel> filteredHotelList = applyFilterCriteria(isWonderfulSelected, isVeryGoodSelected, isGoodSelected,
+//                    maxPrice, isHotelSelected, isMotelSelected, is1BedSelected, is2BedsSelected);
+//
+//            // Update RecyclerView with filtered hotel list
+//            hotelAdapter.setSearchList(filteredHotelList);
+//        }
+//    }
+//
+//    // Method to apply filter criteria to the hotel list
+//    private List<Hotel> applyFilterCriteria(boolean isWonderfulSelected, boolean isVeryGoodSelected, boolean isGoodSelected,
+//                                            int maxPrice, boolean isHotelSelected, boolean isMotelSelected,
+//                                            boolean is1BedSelected, boolean is2BedsSelected) {
+//        List<Hotel> filteredList = new ArrayList<>();
+//
+//        // Apply filter logic here based on the criteria passed
+//
+//        // Example: Loop through the original hotel list and add hotels that meet the filter criteria to the filtered list
+//
+//
+//        for (Hotel hotel : hotelList) {
+//            int hotelPrice = Integer.parseInt(hotel.getPrice().replace("$", "").replaceAll("/per night", "").trim());
+//            // Check if the hotel meets the filter criteria and add it to the filtered list if it does
+//            // Example: Check if the hotel's price is within the maxPrice range and other criteria like type, location, etc.
+//            if (hotelPrice <= maxPrice && ((isHotelSelected && hotel.getType().equals("Hotel")) || (isMotelSelected && hotel.getType().equals("Motel")))) {
+//                // Add the hotel to the filtered list
+//                filteredList.add(hotel);
+//            }
+//        }
+//
+//
+//        return filteredList;
+//    }
 
 
 
@@ -312,11 +307,12 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
                                 String location = jsonObject.getString("hotelLocation");
                                 String price = jsonObject.getString("hotelPrice");
                                 String description = jsonObject.getString("hotelDescription");
-                                String type = jsonObject.getString("hotelType");
                                 String rating = jsonObject.getString("hotelRating");
                                 int numBeds = jsonObject.getInt("hotelNumBeds");
+                                int numbaths = jsonObject.getInt("hotelNumBaths");
+                                Boolean wifi = jsonObject.getBoolean("hotelWifi");
 
-                                Hotel hotel = new Hotel(image,name,location ,price,description,type,rating,numBeds);
+                                Hotel hotel = new Hotel(image,name,location ,price,description,rating,numBeds,numbaths,wifi);
                                 hotelList.add(hotel);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -354,13 +350,14 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 
     private void addSampleHotels() {
         // Add sample hotel data to the list
-        hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "123 Main Street, Cityville, USA", "$100/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Hotel", "Wonderful", 2));
-        hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Resort", "Very Good", 1));
-        hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Lodge", "Good", 2));
+        hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "123 Main Street, Cityville, USA", "$100/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Wonderful", 2, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Very Good", 1, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Good", 2, 1, true));
 
         // Notify the adapter that data has changed
         hotelAdapter.notifyDataSetChanged();
     }
+
 
     private void searchList(String text) {
         List<Hotel> dataSearchList = new ArrayList<>();
