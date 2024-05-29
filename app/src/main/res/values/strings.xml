@@ -60,5 +60,8 @@
     <string name="beds">Beds</string>
     <string name="baths">Baths</string>
     <string name="wi_fi">Wi-Fi</string>
+    <string name="map_button_description">Show map location</string>
+
+
 
 </resources>

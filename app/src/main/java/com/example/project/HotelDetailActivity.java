@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,51 +18,35 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HotelDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class HotelDetailActivity extends AppCompatActivity {
 
     private ImageButton backButton;
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
-    private FrameLayout viewMap;
+    private ImageView ivShowOnMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        viewMap = findViewById(R.id.mapContainer);
-        viewMap.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // Create a Uri with the coordinates and zoom level
-                    Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?z=17");
+        Intent intent = getIntent();
+        latitude = intent.getDoubleExtra("latitude", 0);
+        longitude = intent.getDoubleExtra("longitude", 0);
 
-                    // Create an intent to open Google Maps
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        ivShowOnMap = findViewById(R.id.imageButtonMap);
+        ivShowOnMap.setOnClickListener(v -> {
+            // Create the URI for the location and start the map intent
+            String uri = "geo:" + latitude + "," + longitude + "?z=17&q=" + latitude + "," + longitude + "(" + Uri.encode("Hotel Location") + ")";
 
-                    // Set the package explicitly to Google Maps
-                    mapIntent.setPackage("com.google.android.apps.maps");
-
-                    // Check if there's an app to handle the intent
-                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                        // Start Google Maps
-                        startActivity(mapIntent);
-                    } else {
-                        // Handle case where Google Maps app is not installed
-                        // For example, show a toast or open a browser with Google Maps web URL
-                    }
-                }
-            });
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            mapIntent.setPackage("com.google.android.apps.maps"); // Ensure Google Maps is used
+            startActivity(mapIntent);
+        });
 
 
-
-            // Initialize map fragment
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.mapContainer);
-//        mapFragment.getMapAsync(this);
-
-        // Initialize back button
+    // Initialize back button
         backButton = findViewById(R.id.imageButtonBack);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,19 +108,10 @@ public class HotelDetailActivity extends AppCompatActivity implements OnMapReady
                 intent.putExtra("hotelImage", finalHotelImageResId);
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
-
                 // Start PaymentActivity
                 startActivity(intent);
             }
         });
-    }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        // Add a marker at the hotel location and move the camera
-        LatLng hotelLocation = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(hotelLocation).title("Hotel Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelLocation, 15)); // Zoom level: 15
     }
 }

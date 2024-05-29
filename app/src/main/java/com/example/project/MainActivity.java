@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,9 +59,9 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     private Button selectCheckInDateButton, selectCheckOutDateButton;
     private boolean isWonderfulSelected, isVeryGoodSelected, isGoodSelected;
     private int maxPrice;
-    private boolean isHotelSelected, isMotelSelected;
     private boolean is1BedSelected, is2BedsSelected;
     private static final int FILTER_REQUEST_CODE = 1;
+    private TextView filterResultTextView;
 
 //    ArrayList<String> hotelName = new ArrayList<>();
 //    ArrayList<String> hotelLocation = new ArrayList<>();
@@ -85,7 +88,16 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         calendar = Calendar.getInstance();
         backButton = findViewById(R.id.imageButtonBack);
         filterButton = findViewById(R.id.filterButton);
-        hotelList = new ArrayList<>();
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open FilterActivity to apply filters
+                Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+                startActivityForResult(intent, FILTER_REQUEST_CODE);
+            }
+        });
+
+    hotelList = new ArrayList<>();
 
         hotelAdapter = new HotelAdapter(hotelList, this, this);
 
@@ -239,54 +251,51 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 //    }
 
 
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
-//            // Retrieve filter criteria from the Intent
-//            boolean isWonderfulSelected = data.getBooleanExtra("isWonderfulSelected", false);
-//            boolean isVeryGoodSelected = data.getBooleanExtra("isVeryGoodSelected", false);
-//            boolean isGoodSelected = data.getBooleanExtra("isGoodSelected", false);
-//            int maxPrice = data.getIntExtra("maxPrice", 0);
-//            boolean isHotelSelected = data.getBooleanExtra("isHotelSelected", false);
-//            boolean isMotelSelected = data.getBooleanExtra("isMotelSelected", false);
-//            boolean is1BedSelected = data.getBooleanExtra("is1BedSelected", false);
-//            boolean is2BedsSelected = data.getBooleanExtra("is2BedsSelected", false);
-//
-//
-//
-//            // Apply filter criteria to the hotel list
-//            List<Hotel> filteredHotelList = applyFilterCriteria(isWonderfulSelected, isVeryGoodSelected, isGoodSelected,
-//                    maxPrice, isHotelSelected, isMotelSelected, is1BedSelected, is2BedsSelected);
-//
-//            // Update RecyclerView with filtered hotel list
-//            hotelAdapter.setSearchList(filteredHotelList);
-//        }
-//    }
-//
-//    // Method to apply filter criteria to the hotel list
-//    private List<Hotel> applyFilterCriteria(boolean isWonderfulSelected, boolean isVeryGoodSelected, boolean isGoodSelected,
-//                                            int maxPrice, boolean isHotelSelected, boolean isMotelSelected,
-//                                            boolean is1BedSelected, boolean is2BedsSelected) {
-//        List<Hotel> filteredList = new ArrayList<>();
-//
-//        // Apply filter logic here based on the criteria passed
-//
-//        // Example: Loop through the original hotel list and add hotels that meet the filter criteria to the filtered list
-//
-//
-//        for (Hotel hotel : hotelList) {
-//            int hotelPrice = Integer.parseInt(hotel.getPrice().replace("$", "").replaceAll("/per night", "").trim());
-//            // Check if the hotel meets the filter criteria and add it to the filtered list if it does
-//            // Example: Check if the hotel's price is within the maxPrice range and other criteria like type, location, etc.
-//            if (hotelPrice <= maxPrice && ((isHotelSelected && hotel.getType().equals("Hotel")) || (isMotelSelected && hotel.getType().equals("Motel")))) {
-//                // Add the hotel to the filtered list
-//                filteredList.add(hotel);
-//            }
-//        }
-//
-//
-//        return filteredList;
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            // Retrieve filter options from FilterActivity
+            boolean isWonderfulSelected = data.getBooleanExtra("isWonderfulSelected", false);
+            boolean isVeryGoodSelected = data.getBooleanExtra("isVeryGoodSelected", false);
+            boolean isGoodSelected = data.getBooleanExtra("isGoodSelected", false);
+            boolean isAnySelected = data.getBooleanExtra("isAnySelected", false);
+            boolean is1BedSelected = data.getBooleanExtra("is1BedSelected", false);
+            boolean is2BedsSelected = data.getBooleanExtra("is2BedsSelected", false);
+            boolean is1BathSelected = data.getBooleanExtra("is1BathSelected", false);
+            boolean is2BathsSelected = data.getBooleanExtra("is2BathsSelected", false);
+            boolean isWifiAvailableSelected = data.getBooleanExtra("isWifiAvailableSelected", false);
+            boolean isWifiNotAvailableSelected = data.getBooleanExtra("isWifiNotAvailableSelected", false);
+            int maxPrice = data.getIntExtra("maxPrice", 0);
+
+            // Clear the current hotel list to apply filters
+            hotelList.clear();
+
+            // Apply filters based on addSampleHotels method
+            for (Hotel hotel : hotelList) {
+                if ((isWonderfulSelected && hotel.getRating().equalsIgnoreCase("Wonderful")) ||
+                        (isVeryGoodSelected && hotel.getRating().equalsIgnoreCase("Very Good")) ||
+                        (isGoodSelected && hotel.getRating().equalsIgnoreCase("Good")) ||
+                        (isAnySelected && hotel.getRating().equalsIgnoreCase("Any")) ||
+                        (is1BedSelected && hotel.getBeds() == 1) ||
+                        (is2BedsSelected && hotel.getBeds() == 2) ||
+                        (is1BathSelected && hotel.getBaths() == 1) ||
+                        (is2BathsSelected && hotel.getBaths() == 2) ||
+                        (isWifiAvailableSelected && hotel.isWifi()) ||
+                        (isWifiNotAvailableSelected && !hotel.isWifi())) {
+                    double hotelPrice = Double.parseDouble(hotel.getPrice().substring(1));
+                    // Check if the hotel price is within the maximum price
+                    if (hotelPrice <= maxPrice) {
+                        hotelList.add(hotel);  // Add the filtered hotel to the list
+                    }
+                }
+            }
+
+            // Notify the adapter of changes in the filtered list
+            hotelAdapter.notifyDataSetChanged();
+        }
+    }
+
 
 
 
@@ -311,8 +320,10 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
                                 int numBeds = jsonObject.getInt("hotelNumBeds");
                                 int numbaths = jsonObject.getInt("hotelNumBaths");
                                 Boolean wifi = jsonObject.getBoolean("hotelWifi");
+                                double latitude = jsonObject.getDouble("hotelLatitude");
+                                double longitude = jsonObject.getDouble("hotelLongtitude");
 
-                                Hotel hotel = new Hotel(image,name,location ,price,description,rating,numBeds,numbaths,wifi);
+                                Hotel hotel = new Hotel(image,name,location ,latitude,longitude,price,description,rating,numBeds,numbaths,wifi);
                                 hotelList.add(hotel);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -349,12 +360,13 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     }
 
     private void addSampleHotels() {
-        hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "123 Main Street, Cityville, USA", "$100/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Wonderful", 2, 1, true));
-        hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Very Good", 1, 1, true));
-        hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Good", 2, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "East Ram Nagar, Ram Nagar, Shahdara, New Delhi, Delhi, 110032, India", 28.6759959, 77.2950883, "$102/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Wonderful", 2, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", 36.7783, -119.4179, "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Very Good", 1, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", 39.7392, -104.9903, "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Good", 2, 1, true));
 
         hotelAdapter.notifyDataSetChanged();
     }
+
 
 
 
@@ -435,6 +447,9 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         intent.putExtra("numberOfBeds", hotel.getBeds());
         intent.putExtra("numberOfBaths", hotel.getBaths());
         intent.putExtra("hasWifi", hotel.isWifi());
+        intent.putExtra("latitude", hotel.getLatitude());
+        intent.putExtra("longitude", hotel.getLongitude());
+
         startActivity(intent);
         Toast.makeText(this, "Clicked: " + hotel.getName(), Toast.LENGTH_SHORT).show();
     }

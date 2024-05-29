@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +20,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/back" />
 
-
         <TextView
             android:id="@+id/FilterTitle"
             android:layout_width="match_parent"
@@ -29,9 +29,9 @@
             android:text="Filter"
             android:textAlignment="center"
             android:textSize="20sp" />
-
     </LinearLayout>
-    <!-- Filter by Price -->
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,121 +48,135 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="5dp"/>
 
-
-
-    <!-- Filter by Guest Rating -->
     <TextView
+        android:id="@+id/textViewPriceValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Guest Rating"
+        android:text="Price: $0"
         android:textSize="14sp"
         android:padding="5dp"/>
 
-    <CheckBox
-        android:id="@+id/checkBoxWonderful"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wonderful"
-        android:textSize="12sp"
-        android:padding="5dp"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <CheckBox
-        android:id="@+id/checkBoxVeryGood"
-        android:layout_width="wrap_content"
+
+        <CheckBox
+            android:id="@+id/checkBoxWonderful"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wonderful"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBoxVeryGood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Very Good"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBoxGood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Good"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBoxAny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Any"
+            android:textSize="12sp"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Very Good"
-        android:textSize="12sp"
-        android:padding="5dp"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <CheckBox
-        android:id="@+id/checkBoxGood"
-        android:layout_width="wrap_content"
+
+        <CheckBox
+            android:id="@+id/checkBox1Bed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 Bed"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBox2Beds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 Beds"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Good"
-        android:textSize="12sp"
-        android:padding="5dp"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <CheckBox
-        android:id="@+id/checkBoxAny"
-        android:layout_width="wrap_content"
+
+        <CheckBox
+            android:id="@+id/checkBox1Bath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 Bath"
+            android:textSize="12sp"
+            android:padding="8dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBox2Baths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 Baths"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Any"
-        android:textSize="12sp"
-        android:padding="8dp"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <!-- Filter by Property Type -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Number of Beds"
-        android:textSize="14sp" />
+        <CheckBox
+            android:id="@+id/checkBoxWifiAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="12sp"
+            android:padding="5dp"/>
 
-    <CheckBox
-        android:id="@+id/checkBoxHotel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 Bed"
-        android:textSize="12sp"
-        android:padding="5dp"/>
 
-    <CheckBox
-        android:id="@+id/checkBoxMotel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2 Beds"
-        android:textSize="12sp"
-        android:padding="5dp"/>
-
-    <!-- Filter by Location -->
-
-    <!-- Filter by Number of Rooms -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Number of baths"
-        android:textSize="14sp"
-
-        android:padding="5dp"/>
-
-    <CheckBox
-        android:id="@+id/checkBox1Bed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 Bath"
-        android:textSize="12sp"
-        android:padding="8dp"/>
-
-    <CheckBox
-        android:id="@+id/checkBox2Beds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2 Baths"
-        android:textSize="12sp"
-        android:padding="5dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wifi"
-        android:textSize="14sp"
-        android:padding="5dp"/>
-
-    <CheckBox
-        android:id="@+id/checkBoxWifiAvailable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yes"
-        android:textSize="12sp"
-        android:padding="5dp"/>
-
-    <CheckBox
-        android:id="@+id/checkBoxWifiNotAvailable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No"
-        android:textSize="12sp"
-        android:padding="5dp"/>
+        <CheckBox
+            android:id="@+id/checkBoxWifiNotAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="12sp"
+            android:padding="5dp"/>
+    </LinearLayout>
 
     <!-- Apply Filter Button -->
     <Button
@@ -176,5 +190,4 @@
         android:text="Done"
         android:backgroundTint="@color/purple"
         android:background="@drawable/background"/>
-
 </LinearLayout>

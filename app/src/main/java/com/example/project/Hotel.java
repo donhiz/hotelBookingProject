@@ -7,13 +7,13 @@ public class Hotel {
     private String price;
     private String description;
     private String rating;
-
     private int numBed;
-
     private int bath;
     private boolean wifi;
+    private double latitude;  // Changed to double for latitude
+    private double longitude; // Changed to double for longitude
 
-    public Hotel(int imageResId, String name, String location, String price, String description, String rating, int numBed, int bath, boolean wifi) {
+    public Hotel(int imageResId, String name, String location, double latitude, double longitude, String price, String description, String rating, int numBed, int bath, boolean wifi) {
         this.imageResId = imageResId;
         this.name = name;
         this.location = location;
@@ -23,6 +23,8 @@ public class Hotel {
         this.numBed = numBed;
         this.bath = bath;
         this.wifi = wifi;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getImageResId() {
@@ -59,5 +61,13 @@ public class Hotel {
 
     public boolean isWifi() {
         return wifi;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }

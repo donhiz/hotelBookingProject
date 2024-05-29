@@ -20,9 +20,6 @@ public class BookingDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CHECK_IN = "check_in";
     public static final String COLUMN_CHECK_OUT = "check_out";
     private static final String COLUMN_GUESTS = "guests_Rating";
-    private static final String COLUMN_ROOM_TYPE = "property_type";
-    private static final String COLUMN_ROOM_NUMBER = "room_number";
-    private static final String COLUMN_LOCATION = "location";
     private static final String COLUMN_TRAVELERS_COUNT = "travelers_count";
 
     public BookingDatabaseHelper(@Nullable Context context) {
@@ -40,9 +37,6 @@ public class BookingDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_CHECK_IN + " TEXT, " +
             COLUMN_CHECK_OUT + " TEXT, " +
             COLUMN_GUESTS + " INTEGER, " +
-            COLUMN_ROOM_TYPE + " TEXT, " +
-            COLUMN_ROOM_NUMBER + " TEXT, " +
-            COLUMN_LOCATION + " TEXT , " +
                 COLUMN_TRAVELERS_COUNT + " INTEGER)";
             db.execSQL(createTable);
 
@@ -61,9 +55,6 @@ public class BookingDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_CHECK_IN, checkIn);
         values.put(COLUMN_CHECK_OUT, checkOut);
         values.put(COLUMN_GUESTS, guests);
-        values.put(COLUMN_ROOM_TYPE, roomType);
-        values.put(COLUMN_ROOM_NUMBER, roomNumber);
-        values.put(COLUMN_LOCATION, location);
         values.put(COLUMN_TRAVELERS_COUNT, 1);
         long newRowId = db.insert(SQL_CREATE_BOOKING_TABLE, null, values);
         db.close();
@@ -72,7 +63,7 @@ public class BookingDatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getAllBookings(){
         SQLiteDatabase db = getReadableDatabase();
-        String[] projection = {COLUMN_ID, COLUMN_CHECK_IN, COLUMN_CHECK_OUT, COLUMN_GUESTS, COLUMN_ROOM_TYPE, COLUMN_ROOM_NUMBER, COLUMN_LOCATION, COLUMN_TRAVELERS_COUNT};
+        String[] projection = {COLUMN_ID, COLUMN_CHECK_IN, COLUMN_CHECK_OUT, COLUMN_GUESTS,  COLUMN_TRAVELERS_COUNT};
         return db.query(SQL_CREATE_BOOKING_TABLE, projection, null, null, null, null, null);
 
     }

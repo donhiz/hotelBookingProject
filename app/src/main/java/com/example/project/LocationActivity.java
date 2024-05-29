@@ -19,7 +19,6 @@ public class LocationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_location);
 
         Log.d("LocationActivity", "onCreate: location permission granted: " + isLocationPermissionGranted());
 
