@@ -25,20 +25,27 @@ public class HotelDetailActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private ImageView ivShowOnMap;
+    private String hotelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
         Intent intent = getIntent();
         latitude = intent.getDoubleExtra("latitude", 0);
         longitude = intent.getDoubleExtra("longitude", 0);
+        hotelName = intent.getStringExtra("hotelName");
+
+
 
         ivShowOnMap = findViewById(R.id.imageButtonMap);
         ivShowOnMap.setOnClickListener(v -> {
             // Create the URI for the location and start the map intent
-            String uri = "geo:" + latitude + "," + longitude + "?z=17&q=" + latitude + "," + longitude + "(" + Uri.encode("Hotel Location") + ")";
+            String uri = "geo:" + latitude + "," + longitude + "?z=17&q=" + latitude + "," + longitude + "(" + Uri.encode(hotelName) + ")";
+
+
 
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             mapIntent.setPackage("com.google.android.apps.maps"); // Ensure Google Maps is used

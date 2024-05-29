@@ -56,22 +56,25 @@
 
     <!-- Date selection -->
     <!-- Add DatePicker for Check-in Date -->
-    <Button
-        android:id="@+id/selectCheckInDateButton"
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:text="Select Check-in Date" />
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"
+        android:hint="checkin Date"
+        android:id="@+id/checkinDate"/>
 
     <!-- Add DatePicker for Check-out Date -->
-    <Button
-        android:id="@+id/selectCheckOutDateButton"
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:text="Select Check-out Date" />
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"
+        android:hint="checkout Date"
+        android:id="@+id/checkoutDate"/>
 
 
     <!-- Location selection -->

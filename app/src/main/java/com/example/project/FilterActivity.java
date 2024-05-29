@@ -20,6 +20,7 @@ public class FilterActivity extends AppCompatActivity {
     private SeekBar seekBarPrice;
     private Button btnApplyFilter;
     private TextView textViewPriceValue;
+    ImageButton backButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -56,6 +57,14 @@ public class FilterActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        // Initialize back button
+        backButton = findViewById(R.id.imageButtonBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 

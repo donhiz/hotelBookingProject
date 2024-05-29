@@ -68,4 +68,13 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish(); // Finish the LoginActivity to prevent returning to it when pressing back
     }
+    // Method to delete existing account
+    private void deleteAccount() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("username");
+        editor.remove("password");
+        editor.apply();
+        Toast.makeText(this, "Account deleted!", Toast.LENGTH_SHORT).show();
+    }
+
 }

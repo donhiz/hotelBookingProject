@@ -55,6 +55,15 @@
         android:text="Price: $0"
         android:textSize="14sp"
         android:padding="5dp"/>
+    <TextView
+        android:id="@+id/ratingtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guest Rating"
+        android:textSize="14sp"
+        android:padding="5dp"/>
+
+
 
 
     <LinearLayout
@@ -62,7 +71,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp">
-
 
         <CheckBox
             android:id="@+id/checkBoxWonderful"
@@ -99,6 +107,14 @@
             android:textSize="12sp"
             android:padding="8dp"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/bedtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of beds"
+        android:textSize="14sp"
+        android:padding="5dp"/>
+
 
 
     <LinearLayout
@@ -125,6 +141,14 @@
             android:textSize="12sp"
             android:padding="5dp"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/bathtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of baths"
+        android:textSize="14sp"
+        android:padding="5dp"/>
+
 
 
     <LinearLayout
@@ -151,6 +175,14 @@
             android:textSize="12sp"
             android:padding="5dp"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/wifitxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wi-Fi"
+        android:textSize="14sp"
+        android:padding="5dp"/>
+
 
 
     <LinearLayout

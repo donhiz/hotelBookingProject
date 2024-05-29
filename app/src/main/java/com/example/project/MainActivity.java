@@ -2,21 +2,18 @@ package com.example.project;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,23 +27,23 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements RecycleViewInterface {
 
     private RecyclerView recyclerView;
     private HotelAdapter hotelAdapter;
     private List<Hotel> hotelList;
+    private List<Hotel> filteredHotelList;
     private SearchView searchView;
     private Button selectDateButton;
     private Button bookNowButton, filterButton;
@@ -54,20 +51,13 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     private Calendar calendar;
     private Context context;
     private RequestQueue requestQueue;
-    private Spinner spinner ;
+    private Spinner spinner;
     private BookingDatabaseHelper dbHelper;
-    private Button selectCheckInDateButton, selectCheckOutDateButton;
     private boolean isWonderfulSelected, isVeryGoodSelected, isGoodSelected;
     private int maxPrice;
     private boolean is1BedSelected, is2BedsSelected;
     private static final int FILTER_REQUEST_CODE = 1;
     private TextView filterResultTextView;
-
-//    ArrayList<String> hotelName = new ArrayList<>();
-//    ArrayList<String> hotelLocation = new ArrayList<>();
-//    ArrayList<String> hotelPrice = new ArrayList<>();
-//    ArrayList<String> hotelDescription = new ArrayList<>();
-//    ArrayList<String> hotelImage = new ArrayList<>();
 
 
     @SuppressLint("MissingInflatedId")
@@ -81,13 +71,43 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         // Initialize RecyclerView, hotel list, searchView, and selectDateButton
         recyclerView = findViewById(R.id.recyclerView);
         searchView = findViewById(R.id.search);
-        selectCheckInDateButton = findViewById(R.id.selectCheckInDateButton);
-        selectCheckOutDateButton = findViewById(R.id.selectCheckOutDateButton);
+        checkinDate = findViewById(R.id.checkinDate);
+        checkoutdate = findViewById(R.id.checkoutDate);
 
         bookNowButton = findViewById(R.id.bookButton);
         calendar = Calendar.getInstance();
         backButton = findViewById(R.id.imageButtonBack);
         filterButton = findViewById(R.id.filterButton);
+        hotelList = new ArrayList<>();
+        filteredHotelList = new ArrayList<>();
+
+        hotelAdapter = new HotelAdapter(filteredHotelList, this, new RecycleViewInterface() {
+            @Override
+            public void onItemClick(int position) {
+                Hotel hotel = hotelList.get(position);
+                Intent intent = new Intent(MainActivity.this, HotelDetailActivity.class);
+                intent.putExtra("hotelName", hotel.getName());
+                intent.putExtra("hotelLocation", hotel.getLocation());
+                intent.putExtra("hotelPrice", hotel.getPrice());
+                intent.putExtra("hotelImage", hotel.getImageResId());
+                intent.putExtra("hotelDescription", hotel.getDescription());
+                intent.putExtra("hotelRating", hotel.getRating());
+                intent.putExtra("numberOfBeds", hotel.getBeds());
+                intent.putExtra("numberOfBaths", hotel.getBaths());
+                intent.putExtra("hasWifi", hotel.isWifi());
+                intent.putExtra("latitude", hotel.getLatitude());
+                intent.putExtra("longitude", hotel.getLongitude());
+
+                startActivity(intent);
+
+            }
+
+        });
+        recyclerView.setAdapter(hotelAdapter);
+
+        addSampleHotels();
+        filteredHotelList.addAll(hotelList);
+        hotelAdapter.notifyDataSetChanged();
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
             }
         });
 
-    hotelList = new ArrayList<>();
+        hotelList = new ArrayList<>();
 
         hotelAdapter = new HotelAdapter(hotelList, this, this);
 
@@ -106,13 +126,6 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         recyclerView.setAdapter(hotelAdapter);
 //        startActivityForResult(new Intent(this, FilterActivity.class), 1);
 
-
-
-
-
-
-        requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
-        fetchHotelData();
 
         // Set up search functionality
         setupSearchView();
@@ -155,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         spinner.setAdapter(adapter);
 
 
-
-
         //set up turn back button
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,81 +186,40 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         });
 
 
-        selectCheckInDateButton.setOnClickListener(new View.OnClickListener() {
+        checkinDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog();
-
+                datePickerDialog = new DatePickerDialog(
+                        MainActivity.this, date,
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                );
+                // Set the minimum date to today's date
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
+            }
+        });
+        checkoutdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog2 = new DatePickerDialog(
+                        MainActivity.this, date2,
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                );
+                // Set the minimum date to today's date
+                datePickerDialog2.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog2.show();
             }
         });
 
-
-        selectCheckOutDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
-        //retrieving data and save dates if available
-        Cursor cursor = dbHelper.getAllBookings();
-        if (cursor != null && cursor.moveToFirst()) {
-            String checkInDate = cursor.getString(cursor.getColumnIndexOrThrow(BookingDatabaseHelper.COLUMN_CHECK_IN));
-            String checkOutDate = cursor.getString(cursor.getColumnIndexOrThrow(BookingDatabaseHelper.COLUMN_CHECK_OUT));
-            selectCheckInDateButton.setText(checkInDate);
-            selectCheckOutDateButton.setText(checkOutDate);
-            cursor.close();
-
-        }
 
     }
 
-//        //getting Json
-//        try {
-//            JSONObject object = new JSONObject(loadJSONFromAsset());
-//
-//            //fetch JsonArray name hotel
-//            JSONArray array = object.getJSONArray("hotels");
-//            // implementation of loop for getting hotel list data
-//            for (int i = 0; i < array.length(); i++) {
-//                //add hotel name to arraylist
-//                JSONObject hotelDetails = array.getJSONObject(i);
-//                hotelName.add(hotelDetails.getString("name"));
-//                hotelLocation.add(hotelDetails.getString("location"));
-//                hotelPrice.add(hotelDetails.getString("price"));
-//                hotelDescription.add(hotelDetails.getString("description"));
-//                hotelImage.add(hotelDetails.getString("image"));
-//
-//            }
-//
-//    }catch (JSONException e){
-//            e.printStackTrace();
-//        }
-//        detailAdapter detailAdapter = new detailAdapter(hotelName,hotelLocation,hotelPrice,hotelDescription,hotelImage,MainActivity.this);
-//        recyclerView.setAdapter(detailAdapter);
-//
-//
-//
-//
-//
-//    }
-//    //method to load json
-//    private String loadJSONFromAsset() {
-//        String json = null;
-//        try {
-//            InputStream is = getAssets().open("hotel_data.json");
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            json = new String(buffer, "UTF-8");
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//        return json;
-//    }
 
+    // Set up filter function
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -268,79 +238,58 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
             boolean isWifiNotAvailableSelected = data.getBooleanExtra("isWifiNotAvailableSelected", false);
             int maxPrice = data.getIntExtra("maxPrice", 0);
 
-            // Clear the current hotel list to apply filters
-            hotelList.clear();
-
-            // Apply filters based on addSampleHotels method
-            for (Hotel hotel : hotelList) {
-                if ((isWonderfulSelected && hotel.getRating().equalsIgnoreCase("Wonderful")) ||
-                        (isVeryGoodSelected && hotel.getRating().equalsIgnoreCase("Very Good")) ||
-                        (isGoodSelected && hotel.getRating().equalsIgnoreCase("Good")) ||
-                        (isAnySelected && hotel.getRating().equalsIgnoreCase("Any")) ||
-                        (is1BedSelected && hotel.getBeds() == 1) ||
-                        (is2BedsSelected && hotel.getBeds() == 2) ||
-                        (is1BathSelected && hotel.getBaths() == 1) ||
-                        (is2BathsSelected && hotel.getBaths() == 2) ||
-                        (isWifiAvailableSelected && hotel.isWifi()) ||
-                        (isWifiNotAvailableSelected && !hotel.isWifi())) {
-                    double hotelPrice = Double.parseDouble(hotel.getPrice().substring(1));
-                    // Check if the hotel price is within the maximum price
-                    if (hotelPrice <= maxPrice) {
-                        hotelList.add(hotel);  // Add the filtered hotel to the list
-                    }
-                }
-            }
-
-            // Notify the adapter of changes in the filtered list
-            hotelAdapter.notifyDataSetChanged();
+            // Apply filters to the hotelList
+            filterHotelList(isWonderfulSelected, isVeryGoodSelected, isGoodSelected, isAnySelected, is1BedSelected, is2BedsSelected, is1BathSelected, is2BathsSelected, isWifiAvailableSelected, isWifiNotAvailableSelected, maxPrice);
         }
     }
 
+    private void filterHotelList(boolean isWonderfulSelected, boolean isVeryGoodSelected, boolean isGoodSelected, boolean isAnySelected,
+                                 boolean is1BedSelected, boolean is2BedsSelected, boolean is1BathSelected, boolean is2BathsSelected,
+                                 boolean isWifiAvailableSelected, boolean isWifiNotAvailableSelected, int maxPrice) {
+        filteredHotelList.clear(); // Clear the filtered list before applying filters
 
+        for (Hotel hotel : hotelList) {
+            boolean matchesFilter = true;
 
-
-    private void fetchHotelData() {
-
-        String url = "https://jsonformatter.org/jsonview";
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        for (int i = 0 ; i < response.length() ; i ++){
-                            try {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                int image = jsonObject.getInt("hotelImage");
-                                String name = jsonObject.getString("hotelName");
-                                String location = jsonObject.getString("hotelLocation");
-                                String price = jsonObject.getString("hotelPrice");
-                                String description = jsonObject.getString("hotelDescription");
-                                String rating = jsonObject.getString("hotelRating");
-                                int numBeds = jsonObject.getInt("hotelNumBeds");
-                                int numbaths = jsonObject.getInt("hotelNumBaths");
-                                Boolean wifi = jsonObject.getBoolean("hotelWifi");
-                                double latitude = jsonObject.getDouble("hotelLatitude");
-                                double longitude = jsonObject.getDouble("hotelLongtitude");
-
-                                Hotel hotel = new Hotel(image,name,location ,latitude,longitude,price,description,rating,numBeds,numbaths,wifi);
-                                hotelList.add(hotel);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            // Apply guest ratings filter
+            if ((isWonderfulSelected && !hotel.getRating().equalsIgnoreCase("Wonderful")) ||
+                    (isVeryGoodSelected && !hotel.getRating().equalsIgnoreCase("Very Good")) ||
+                    (isGoodSelected && !hotel.getRating().equalsIgnoreCase("Good")) ||
+                    (isAnySelected && !hotel.getRating().equalsIgnoreCase("Any"))) {
+                matchesFilter = false;
             }
-        });
 
-        requestQueue.add(jsonArrayRequest);
+            // Apply beds and baths filter
+            if ((is1BedSelected && hotel.getBeds() != 1) ||
+                    (is2BedsSelected && hotel.getBeds() != 2) ||
+                    (is1BathSelected && hotel.getBaths() != 1) ||
+                    (is2BathsSelected && hotel.getBaths() != 2)) {
+                matchesFilter = false;
+            }
 
+            // Apply Wi-Fi availability filter
+            if ((isWifiAvailableSelected && !hotel.isWifi()) ||
+                    (isWifiNotAvailableSelected && hotel.isWifi())) {
+                matchesFilter = false;
+            }
+
+            // Apply price filter
+            int hotelPrice = Integer.parseInt(hotel.getPrice().replaceAll("[^0-9]", ""));
+            if (maxPrice > 0 && hotelPrice > maxPrice) {
+                matchesFilter = false;
+            }
+
+            if (matchesFilter) {
+                filteredHotelList.add(hotel);
+            }
+        }
+
+        hotelAdapter.setHotelList(filteredHotelList); // Update the adapter's data
+        hotelAdapter.notifyDataSetChanged(); // Notify adapter of data change
     }
+
+
+
 
 
     private void setupSearchView() {
@@ -358,18 +307,6 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
             }
         });
     }
-
-    private void addSampleHotels() {
-        hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "East Ram Nagar, Ram Nagar, Shahdara, New Delhi, Delhi, 110032, India", 28.6759959, 77.2950883, "$102/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Wonderful", 2, 1, true));
-        hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", 36.7783, -119.4179, "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Very Good", 1, 1, true));
-        hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", 39.7392, -104.9903, "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Good", 2, 1, true));
-
-        hotelAdapter.notifyDataSetChanged();
-    }
-
-
-
-
     private void searchList(String text) {
         List<Hotel> dataSearchList = new ArrayList<>();
         for (Hotel data : hotelList) {
@@ -384,50 +321,47 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         }
     }
 
-    private String selectedDate;
-    private String checkInTime;
-    private String checkOutTime;
 
-    private void showDatePickerDialog() {
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    private void addSampleHotels() {
+        hotelList.add(new Hotel(R.drawable.hotel4, "Luxury Paradise Hotel", "East Ram Nagar, Ram Nagar, Shahdara, New Delhi, Delhi, 110032, India", 28.6759959, 77.2950883, "$102/per night", "Indulge in luxury at our 5-star hotel located in the heart of the city. Enjoy breathtaking views, world-class amenities, and exceptional service.", "Wonderful", 2, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel2, "Seaside Resort & Spa", "456 Beach Avenue, Oceanfront, USA", 36.7783, -119.4179, "$120/per night", "Escape to our seaside resort for a tranquil getaway. Relax on pristine beaches, rejuvenate at our spa, and savor delicious coastal cuisine.", "Very Good", 1, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel3, "Mountain Lodge Retreat", "789 Pine Trail, Mountain Town, USA", 39.7392, -104.9903, "$150/per night", "Experience the beauty of nature at our mountain lodge. Enjoy hiking trails, cozy cabins, and stunning views of the surrounding wilderness.", "Good", 2, 1, true));
+        hotelList.add(new Hotel(R.drawable.hotel1, "Urban Oasis Boutique Hotel", "123 Main Street, Downtown, Cityville, USA", 40.7128, -74.0060, "$135/per night", "Discover serenity in the heart of the city at our boutique hotel. Experience stylish accommodations, gourmet dining, and personalized service.", "Good", 1, 2, true));
+        hotelList.add(new Hotel(R.drawable.hotel5, "Riverside Retreat Resort", "101 River Road, Riverside, Countryside, USA", 34.0522, -118.2437, "$180/per night", "Escape to our riverside resort for a peaceful retreat. Enjoy water activities, luxurious cabins, and picturesque views of the river.", "Good", 2, 2, true));
+        hotelList.add(new Hotel(R.drawable.hotel6, "Tropical Paradise Resort & Spa", "789 Palm Avenue, Beachside, Island Paradise, USA", 25.0343, -77.3963, "$250/per night", "Experience paradise at our tropical resort. Relax on white sandy beaches, indulge in spa treatments, and dine under the stars.", "Very Good", 1, 2, true));
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
-                        showTimePickerDialog(true); // Show check-in time picker after selecting the date
-                    }
-                },
-                year, month, day);
-
-        datePickerDialog.show();
+        hotelAdapter.notifyDataSetChanged();
     }
 
-    private void showTimePickerDialog(final boolean isCheckInTime) {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(
-                this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String selectedTime = hourOfDay + ":" + minute;
-                        if (isCheckInTime) {
-                            checkInTime = selectedTime;
-                            showTimePickerDialog(false); // Show check-out time picker after selecting check-in time
-                        } else {
-                            checkOutTime = selectedTime;
-                            // Now you have the selected date, check-in time, and check-out time
-                            // Perform your availability check or other actions here
-                            // For example, you can call a method like checkAvailability(selectedDate, checkInTime, checkOutTime);
-                        }
-                    }
-                },
-                0, 0, true);
+    EditText checkinDate,checkoutdate;
+    final Calendar myCalendar = Calendar.getInstance();
+    DatePickerDialog datePickerDialog;
 
-        timePickerDialog.show();
+
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR,year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+            updateLabel(myCalendar, checkinDate);
+        }
+    };
+    DatePickerDialog.OnDateSetListener date2 = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel(myCalendar,checkoutdate);
+
+        }
+    };
+
+    private void updateLabel(Calendar myCalendar,EditText editText) {
+        String myFormat ="MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.CANADA);
+            editText.setText(sdf.format(myCalendar.getTime()));
     }
 
 
