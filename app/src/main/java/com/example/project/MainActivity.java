@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     private BookingDatabaseHelper dbHelper;
 
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 
         // Set up search functionality
         setupSearchView();
+        searchView.clearFocus();
 
         // Add sample hotel data (replace with your actual data)
         addSampleHotels();
@@ -135,10 +135,6 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     }
 
 
-
-
-
-
     private void setupSearchView() {
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -154,27 +150,25 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
             }
         });
     }
+
     private void searchList(String text) {
-        List<Hotel> dataSearchList = new ArrayList<>();
+        filteredHotelList.clear();  // Clear the filtered list before adding new search results
         for (Hotel data : hotelList) {
             if (data.getName().toLowerCase().contains(text.toLowerCase())) {
-                dataSearchList.add(data);
+                filteredHotelList.add(data);
             }
         }
-        if (dataSearchList.isEmpty()) {
+        if (filteredHotelList.isEmpty()) {
             Toast.makeText(this, "Not Found", Toast.LENGTH_SHORT).show();
-        } else {
-            hotelAdapter.setSearchList(dataSearchList);
         }
+        hotelAdapter.setSearchList(filteredHotelList);  // Update the adapter with the filtered list
     }
-
-
 
 
 
     @Override
     public void onItemClick(int position) {
-        Hotel hotel = hotelList.get(position);
+        Hotel hotel = filteredHotelList.get(position); // Use filteredHotelList instead of hotelList
         Intent intent = new Intent(MainActivity.this, HotelDetailActivity.class);
         intent.putExtra("hotelName", hotel.getName());
         intent.putExtra("hotelLocation", hotel.getLocation());
@@ -191,6 +185,4 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
         startActivity(intent);
         Toast.makeText(this, "Clicked: " + hotel.getName(), Toast.LENGTH_SHORT).show();
     }
-
-
 }

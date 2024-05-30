@@ -47,6 +47,14 @@
         <item>1 Traveler</item>
         <item>2 Travelers</item>
         <item>3 Travelers</item>
+        <item>4 Travelers</item>
+        <item>5 Travelers</item>
+        <item>6 Travelers</item>
+        <item>7 Travelers</item>
+        <item>8 Travelers</item>
+        <item>9 Travelers</item>
+        <item>10 Travelers</item>
+
         <!-- Add more options as needed -->
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>

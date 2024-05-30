@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ public class HotelDetailActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private String hotelName;
+    ImageButton ivShowOnMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,17 @@ public class HotelDetailActivity extends AppCompatActivity {
         latitude = intent.getDoubleExtra("latitude", 0);
         longitude = intent.getDoubleExtra("longitude", 0);
         hotelName = intent.getStringExtra("hotelName");
+        ivShowOnMap = findViewById(R.id.imageButtonMap);
+        ivShowOnMap.setOnClickListener(v -> {
+            // Create the URI for the location and start the map intent
+            String uri = "geo:" + latitude + "," + longitude + "?z=17&q=" + latitude + "," + longitude + "(" + Uri.encode(hotelName) + ")";
+
+
+
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            mapIntent.setPackage("com.google.android.apps.maps"); // Ensure Google Maps is used
+            startActivity(mapIntent);
+        });
 
         // Initialize back button
         backButton = findViewById(R.id.imageButtonBack);

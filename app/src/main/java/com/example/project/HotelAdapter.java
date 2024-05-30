@@ -17,6 +17,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     private List<Hotel> hotelList;
     private final RecycleViewInterface recycleViewInterface;
 
+
     public HotelAdapter(List<Hotel> hotelList, Context context, RecycleViewInterface recycleViewInterface) {
         this.hotelList = hotelList;
         this.recycleViewInterface = recycleViewInterface;

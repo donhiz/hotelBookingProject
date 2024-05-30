@@ -1,6 +1,7 @@
 
 package com.example.project;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -34,6 +35,33 @@ public class PaymentBookingDbHelper extends SQLiteOpenHelper {
                     COLUMN_CARD_EXPIRY + " TEXT, " +
                     COLUMN_CARD_CVV + " TEXT" +
                     ");";
+
+    public void updateBooking(int id, String hotelName, String hotelLocation, String hotelPrice,
+                              String userName, String userEmail, String userPhone,
+                              String cardNumber, String cardExpiry, String cardCVV) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_HOTEL_NAME, hotelName);
+        values.put(COLUMN_HOTEL_LOCATION, hotelLocation);
+        values.put(COLUMN_HOTEL_PRICE, hotelPrice);
+        values.put(COLUMN_USER_NAME, userName);
+        values.put(COLUMN_USER_EMAIL, userEmail);
+        values.put(COLUMN_USER_PHONE, userPhone);
+        values.put(COLUMN_CARD_NUMBER, cardNumber);
+        values.put(COLUMN_CARD_EXPIRY, cardExpiry);
+        values.put(COLUMN_CARD_CVV, cardCVV);
+        db.update(TABLE_BOOKINGS, values, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+    }
+    public void deleteBooking(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_BOOKINGS, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+
 
     public PaymentBookingDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
