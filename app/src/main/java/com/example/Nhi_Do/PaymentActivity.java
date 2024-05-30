@@ -21,6 +21,12 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.project.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 public class PaymentActivity extends AppCompatActivity {
     private ImageButton backButton;
     private Button payButton;
@@ -70,10 +76,30 @@ public class PaymentActivity extends AppCompatActivity {
             TextView priceTextView = findViewById(R.id.detailPrice);
             ImageView imageView = findViewById(R.id.detailImage);
 
-            nameTextView.setText(hotelName);
-            locationTextView.setText(hotelLocation);
-            priceTextView.setText(hotelPrice);
-            imageView.setImageResource(hotelImageResId);
+            // Check for null references
+            if (nameTextView == null) {
+                Log.e("PaymentActivity", "nameTextView is null");
+            } else {
+                nameTextView.setText(hotelName);
+            }
+
+            if (locationTextView == null) {
+                Log.e("PaymentActivity", "locationTextView is null");
+            } else {
+                locationTextView.setText(hotelLocation);
+            }
+
+            if (priceTextView == null) {
+                Log.e("PaymentActivity", "priceTextView is null");
+            } else {
+                priceTextView.setText(hotelPrice);
+            }
+
+            if (imageView == null) {
+                Log.e("PaymentActivity", "imageView is null");
+            } else {
+                imageView.setImageResource(hotelImageResId);
+            }
         }
 
         // Initialize NotificationManager

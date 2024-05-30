@@ -19,7 +19,7 @@
         android:theme="@style/Base.Theme.Hotel_app"
         tools:targetApi="31">
         <activity
-            android:name=".DateActivity"
+            android:name="com.example.Nhi_Do.DateActivity"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -37,7 +37,7 @@
             android:value="YOUR_API_KEY" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.Nhi_Do.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.Nhi_Do.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,22 +54,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"
+        <activity android:name="com.example.Nhi_Do.RegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".HotelDetailActivity"
+            android:name="com.example.Nhi_Do.HotelDetailActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.Hotel_app"></activity>
         <activity
-            android:name=".PaymentActivity"
+            android:name="com.example.Nhi_Do.PaymentActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.Hotel_app"></activity>
-        <activity android:name=".FeedbackActivity" />
+        <activity android:name="com.example.Nhi_Do.FeedbackActivity" />
 
     </application>
 

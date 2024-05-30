@@ -21,7 +21,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/back" />
 
-
         <TextView
             android:id="@+id/OptionTitle"
             android:layout_width="match_parent"
@@ -31,9 +30,7 @@
             android:text="Option"
             android:textAlignment="center"
             android:textSize="20sp" />
-
     </LinearLayout>
-
 
     <!-- Check-in Date -->
     <EditText
@@ -65,6 +62,32 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/numRoom"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:text="Number of rooms"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/numRoomTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="number of rooms"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"
+            android:onClick="showNumberPickerDialog" />
+    </LinearLayout>
+
     <!-- Book Button -->
     <Button
         android:id="@+id/bookButton"
@@ -73,5 +96,4 @@
         android:layout_marginTop="16dp"
         android:layout_gravity="center"
         android:text="Book Now" />
-
 </LinearLayout>

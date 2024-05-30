@@ -1,11 +1,14 @@
 package com.example.Nhi_Do;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
     private List<Hotel> hotelList;
     private List<Hotel> filteredHotelList;
     private SearchView searchView;
-
+    private EditText numRoomTxt;
     private Button bookNowButton;
     private ImageButton backButton;
     private BookingDatabaseHelper dbHelper;
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements RecycleViewInterf
 
 
 
-    @Override
+@Override
     public void onItemClick(int position) {
         Hotel hotel = filteredHotelList.get(position); // Use filteredHotelList instead of hotelList
         Intent intent = new Intent(MainActivity.this, HotelDetailActivity.class);

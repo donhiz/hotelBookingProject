@@ -1,6 +1,7 @@
 package com.example.Nhi_Do;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,13 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class DateActivity extends AppCompatActivity {
 
-    private EditText checkinDate, checkoutDate;
+    private EditText checkinDate, checkoutDate, numRoomTxt;
     private Spinner travellersSpinner;
     private String hotelName, hotelLocation, hotelPrice;
     private int hotelImageResId;
@@ -48,6 +52,7 @@ public class DateActivity extends AppCompatActivity {
         // Initialize views
         checkinDate = findViewById(R.id.checkinDate);
         checkoutDate = findViewById(R.id.checkoutDate);
+        numRoomTxt = findViewById(R.id.numRoomTxt);
         travellersSpinner = findViewById(R.id.travellersSpinner);
         Button bookButton = findViewById(R.id.bookButton);
 
@@ -57,6 +62,7 @@ public class DateActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         travellersSpinner.setAdapter(adapter);
 
+        // Set up button click listener
         // Set up button click listener
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +79,7 @@ public class DateActivity extends AppCompatActivity {
                 editor.apply();
 
 
-                // Navigate to PaymentActivity with the same hotel details
+                // Navigate to PaymentActivity with the same hotel details and total price
                 Intent intent = new Intent(DateActivity.this, PaymentActivity.class);
                 intent.putExtra("hotelName", hotelName);
                 intent.putExtra("hotelLocation", hotelLocation);
@@ -88,6 +94,7 @@ public class DateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         // Set up date pickers
         checkinDate.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +122,14 @@ public class DateActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Handle nothing selected
+            }
+        });
+
+        // Set up numRoomTxt click listener
+        numRoomTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPickerDialog();
             }
         });
     }
@@ -152,5 +167,27 @@ public class DateActivity extends AppCompatActivity {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText.setText(sdf.format(calendar.getTime()));
+    }
+
+    // Method to show number picker dialog
+    private void showNumberPickerDialog() {
+        final Dialog dialog = new Dialog(DateActivity.this);
+        dialog.setContentView(R.layout.number_picker);
+
+        final NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
+        Button buttonSet = dialog.findViewById(R.id.buttonSet);
+
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(10); // Set maximum value as per your requirement
+
+        buttonSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numRoomTxt.setText(String.valueOf(numberPicker.getValue()));
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

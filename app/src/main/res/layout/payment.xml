@@ -10,33 +10,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
             <ImageButton
                 android:id="@+id/imageButtonBack"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_margin="1dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/back_button_description"
-                android:onClick="onBackButtonClicked"
-                android:scaleType="fitCenter"
-                android:src="@drawable/back" />
-
+                android:src="@drawable/back"
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:id="@+id/BookingTitle"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:padding="1dp"
-                android:paddingBottom="16dp"
                 android:text="@string/booking"
                 android:textAlignment="center"
-                android:textSize="20sp" />
-
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageView
@@ -46,8 +43,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/hotel4" />
 
-
-
         <TextView
             android:id="@+id/detailTitle"
             android:layout_width="wrap_content"
@@ -55,7 +50,7 @@
             android:text="@string/hotel_name"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <TextView
             android:id="@+id/detailLocation"
@@ -64,7 +59,7 @@
             android:text="@string/hotel_location"
             android:textSize="18sp"
             android:layout_marginTop="8dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/detailPrice"
@@ -73,7 +68,7 @@
             android:text="@string/price"
             android:textSize="18sp"
             android:layout_marginTop="8dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <!-- Payment Section -->
         <TextView
@@ -82,35 +77,36 @@
             android:text="@string/payment_information"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
 
         <EditText
             android:id="@+id/editTextCardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/card_number"
-            android:inputType="number"/>
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/editTextCardExpiry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/expiry_date_mm_yy"
-            android:inputType="text"/>
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/editTextCardCVV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/cvv"
-            android:inputType="numberPassword"/>
+            android:inputType="numberPassword" />
 
         <EditText
             android:id="@+id/editTextCardHolderName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/card_holder_name"
-            android:inputType="text"/>
+            android:inputType="text" />
 
         <Button
             android:id="@+id/buttonPay"
@@ -119,8 +115,6 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/background"
             android:text="@string/pay" />
-
-        <!-- Feedback Section -->
 
     </LinearLayout>
 </ScrollView>
