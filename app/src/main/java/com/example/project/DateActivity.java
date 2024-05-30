@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class PreviewActivity extends AppCompatActivity {
+public class DateActivity extends AppCompatActivity {
 
     private EditText checkinDate, checkoutDate;
     private Spinner travellersSpinner;
@@ -60,7 +60,7 @@ public class PreviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Handle booking logic here
-                Toast.makeText(PreviewActivity.this, "Book Now Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DateActivity.this, "Book Now Clicked", Toast.LENGTH_SHORT).show();
 
                 // Store check-in and check-out dates in SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("HotelBooking", MODE_PRIVATE);
@@ -72,7 +72,7 @@ public class PreviewActivity extends AppCompatActivity {
 
 
                 // Navigate to PaymentActivity with the same hotel details
-                Intent intent = new Intent(PreviewActivity.this, PaymentActivity.class);
+                Intent intent = new Intent(DateActivity.this, PaymentActivity.class);
                 intent.putExtra("hotelName", hotelName);
                 intent.putExtra("hotelLocation", hotelLocation);
                 intent.putExtra("hotelPrice", hotelPrice);
@@ -107,7 +107,7 @@ public class PreviewActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                Toast.makeText(PreviewActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DateActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -132,7 +132,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         // Create DatePickerDialog with minimum date set
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                PreviewActivity.this, dateSetListener,
+                DateActivity.this, dateSetListener,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)

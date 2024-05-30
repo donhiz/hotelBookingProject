@@ -76,7 +76,7 @@ public class HotelDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Create intent for PreviewActivity
-                Intent intent = new Intent(HotelDetailActivity.this, PreviewActivity.class);
+                Intent intent = new Intent(HotelDetailActivity.this, DateActivity.class);
                 // Pass hotel details as extras
                 intent.putExtra("hotelName", nameTextView.getText().toString());
                 intent.putExtra("hotelLocation", locationTextView.getText().toString());
