@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project.R;
 
 public class HotelDetailActivity extends AppCompatActivity {
 

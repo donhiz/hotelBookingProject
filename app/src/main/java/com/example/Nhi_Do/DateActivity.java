@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

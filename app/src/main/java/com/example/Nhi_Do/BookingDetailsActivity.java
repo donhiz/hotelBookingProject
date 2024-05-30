@@ -1,9 +1,11 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project.R;
 
 public class BookingDetailsActivity extends AppCompatActivity {
 

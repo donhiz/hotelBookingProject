@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

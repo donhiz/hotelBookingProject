@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project.R;
 
 public class LoginActivity extends AppCompatActivity {
 

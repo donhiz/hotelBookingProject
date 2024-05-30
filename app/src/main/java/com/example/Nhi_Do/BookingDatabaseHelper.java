@@ -1,16 +1,12 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.List;
 
 public class BookingDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "booking.db";

@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 public class Hotel {
     private int imageResId;

@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.Nhi_Do;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+
+import com.example.project.R;
 
 public class PaymentActivity extends AppCompatActivity {
     private ImageButton backButton;
