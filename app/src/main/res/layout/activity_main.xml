@@ -57,52 +57,51 @@
     <!-- Date selection -->
     <!-- Add DatePicker for Check-in Date -->
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusableInTouchMode="false"
-        android:hint="checkin Date"
-        android:id="@+id/checkinDate"/>
+<!--    <EditText-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:clickable="false"-->
+<!--        android:cursorVisible="false"-->
+<!--        android:focusableInTouchMode="false"-->
+<!--        android:hint="checkin Date"-->
+<!--        android:id="@+id/checkinDate"/>-->
 
-    <!-- Add DatePicker for Check-out Date -->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusableInTouchMode="false"
-        android:hint="checkout Date"
-        android:id="@+id/checkoutDate"/>
+<!--    &lt;!&ndash; Add DatePicker for Check-out Date &ndash;&gt;-->
+<!--    <EditText-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:clickable="false"-->
+<!--        android:cursorVisible="false"-->
+<!--        android:focusableInTouchMode="false"-->
+<!--        android:hint="checkout Date"-->
+<!--        android:id="@+id/checkoutDate"/>-->
 
 
-    <!-- Location selection -->
-    <Spinner
-        android:id="@+id/travellersSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp" />
+<!--    &lt;!&ndash; Location selection &ndash;&gt;-->
+<!--    <Spinner-->
+<!--        android:id="@+id/travellersSpinner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="12dp"-->
+<!--        android:layout_marginTop="16dp" />-->
 
-    <!-- RecyclerView for hotel list -->
+<!--    &lt;!&ndash; RecyclerView for hotel list &ndash;&gt;-->
 
-    <Button
-        android:id="@+id/filterButton"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/background"
-        android:backgroundTint="@color/purple"
-        android:layout_gravity="center"
-        android:text="Filter" />
-
+<!--    <Button-->
+<!--        android:id="@+id/filterButton"-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="@drawable/background"-->
+<!--        android:backgroundTint="@color/purple"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:text="Filter" />-->
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="310dp"
+        android:layout_height="507dp"
         android:layout_marginTop="16dp"
         android:scrollbars="vertical" />
 

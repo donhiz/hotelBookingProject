@@ -1,0 +1,77 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="16dp"
+            android:layout_height="42dp"
+            android:layout_margin="1dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/back_button_description"
+            android:onClick="onBackButtonClicked"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back" />
+
+
+        <TextView
+            android:id="@+id/OptionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:paddingBottom="16dp"
+            android:text="Option"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <!-- Check-in Date -->
+    <EditText
+        android:id="@+id/checkinDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Check-in Date"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="true"
+        android:onClick="showDatePickerDialog"/>
+
+    <!-- Check-out Date -->
+    <EditText
+        android:id="@+id/checkoutDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Check-out Date"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="true"
+        android:onClick="showDatePickerDialog"/>
+
+    <!-- Location selection -->
+    <Spinner
+        android:id="@+id/travellersSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Book Button -->
+    <Button
+        android:id="@+id/bookButton"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:text="Book Now" />
+
+</LinearLayout>

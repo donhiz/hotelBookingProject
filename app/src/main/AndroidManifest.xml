@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -17,8 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Hotel_app"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".PreviewActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -43,28 +45,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".RegisterActivity"/>
         <activity
             android:name=".HotelDetailActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.Hotel_app">
-
-        </activity>
+            android:theme="@style/Base.Theme.Hotel_app"></activity>
         <activity
             android:name=".PaymentActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.Hotel_app">
-
-        </activity>
+            android:theme="@style/Base.Theme.Hotel_app"></activity>
         <activity android:name=".FeedbackActivity" />
-        <activity android:name=".FilterActivity" />
+
     </application>
 
 </manifest>

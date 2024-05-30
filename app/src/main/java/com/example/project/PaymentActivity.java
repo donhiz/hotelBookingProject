@@ -1,6 +1,10 @@
 package com.example.project;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,12 +17,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 public class PaymentActivity extends AppCompatActivity {
     private ImageButton backButton;
     private Button payButton;
     private EditText cardNumberEditText, cardExpiryEditText, cardCVVEditText, cardHolderNameEditText;
     private BookingDAO bookingDAO;
+
+    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,15 @@ public class PaymentActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        // Initialize payment input fields
+        cardNumberEditText = findViewById(R.id.editTextCardNumber);
+        cardExpiryEditText = findViewById(R.id.editTextCardExpiry);
+        cardCVVEditText = findViewById(R.id.editTextCardCVV);
+        cardHolderNameEditText = findViewById(R.id.editTextCardHolderName);
+
+        // Initialize BookingDAO
+        bookingDAO = new BookingDAO(this);
 
         // Retrieve extras from the intent
         Bundle extras = getIntent().getExtras();
@@ -58,14 +74,8 @@ public class PaymentActivity extends AppCompatActivity {
             imageView.setImageResource(hotelImageResId);
         }
 
-        // Initialize payment input fields
-        cardNumberEditText = findViewById(R.id.editTextCardNumber);
-        cardExpiryEditText = findViewById(R.id.editTextCardExpiry);
-        cardCVVEditText = findViewById(R.id.editTextCardCVV);
-        cardHolderNameEditText = findViewById(R.id.editTextCardHolderName);
-
-        // Initialize BookingDAO
-        bookingDAO = new BookingDAO(this);
+        // Initialize NotificationManager
+        notificationManager = getSystemService(NotificationManager.class);
 
         // Initialize and set onClick listeners for the Pay button
         payButton = findViewById(R.id.buttonPay);
@@ -81,6 +91,9 @@ public class PaymentActivity extends AppCompatActivity {
 
                     // Show confirmation dialog
                     showConfirmationDialog();
+
+                    // Show notification
+                    showNotification();
                 }
             }
         });
@@ -92,12 +105,44 @@ public class PaymentActivity extends AppCompatActivity {
         String cardCVV = cardCVVEditText.getText().toString().trim();
         String cardHolderName = cardHolderNameEditText.getText().toString().trim();
 
-        if (cardNumber.isEmpty() || cardExpiry.isEmpty() || cardCVV.isEmpty() || cardHolderName.isEmpty()) {
-            showValidationErrorDialog();
+        if (cardNumber.isEmpty() || !isValidCardNumber(cardNumber)) {
+            cardNumberEditText.setError("Enter a valid card number");
             return false;
         }
+
+        if (cardExpiry.isEmpty() || !isValidCardExpiry(cardExpiry)) {
+            cardExpiryEditText.setError("Enter a valid expiry date (MM/YY)");
+            return false;
+        }
+
+        if (cardCVV.isEmpty() || !isValidCVV(cardCVV)) {
+            cardCVVEditText.setError("Enter a valid CVV (3 or 4 digits)");
+            return false;
+        }
+
+        if (cardHolderName.isEmpty()) {
+            cardHolderNameEditText.setError("Enter cardholder name");
+            return false;
+        }
+
         return true;
     }
+
+    private boolean isValidCardNumber(String cardNumber) {
+        // Add validation logic for card number format (e.g., length and characters)
+        return cardNumber.length() == 16; // Example validation for a 16-digit card number
+    }
+
+    private boolean isValidCardExpiry(String cardExpiry) {
+        // Add validation logic for card expiry format (e.g., MM/YY)
+        return cardExpiry.matches("\\d{2}/\\d{2}"); // Example validation for MM/YY format
+    }
+
+    private boolean isValidCVV(String cardCVV) {
+        // Add validation logic for CVV format (e.g., 3 or 4 digits)
+        return cardCVV.length() == 3 || cardCVV.length() == 4; // Example validation for 3 or 4 digits
+    }
+
 
     private void showValidationErrorDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(PaymentActivity.this).create();
@@ -145,5 +190,34 @@ public class PaymentActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to store booking details.", Toast.LENGTH_SHORT).show();
         }
     }
-}
 
+    private void showNotification() {
+        // Retrieve check-in and check-out dates from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("HotelBooking", MODE_PRIVATE);
+        String checkinDate = sharedPreferences.getString("checkinDate", "");
+        String checkoutDate = sharedPreferences.getString("checkoutDate", "");
+        String travellers = sharedPreferences.getString("travellers", "");
+
+        // Create an intent to open an activity when the notification is clicked
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
+                .setSmallIcon(R.drawable.start_icon)
+                .setContentTitle("Hotel Booking Successfully")
+                .setContentText("Check-in Date: " + checkinDate + ", Check-out Date: " + checkoutDate + ", " +travellers)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        // Create a notification channel (required for Android Oreo and above)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("channel_id", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        // Show the notification
+        notificationManager.notify(1, builder.build());
+    }
+}

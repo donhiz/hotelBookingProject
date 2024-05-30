@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +23,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
+
+        TextView signUpText = findViewById(R.id.signupText);
+        signUpText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRegisterActivity();
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,15 +43,13 @@ public class LoginActivity extends AppCompatActivity {
                 String enteredUsername = username.getText().toString();
                 String enteredPassword = password.getText().toString();
 
-                // Check if the entered username and password match the saved values
-                if (enteredUsername.equals("user") && enteredPassword.equals("1234")) {
-                    handleLogin();
-                    // Login successful, save user credentials to SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("username", enteredUsername);
-                    editor.putString("password", enteredPassword);
-                    editor.apply();
+                // Retrieve the saved username and password from SharedPreferences
+                String savedUsername = sharedPreferences.getString("username", "");
+                String savedPassword = sharedPreferences.getString("password", "");
 
+                // Check if the entered username and password match the saved values
+                if (enteredUsername.equals(savedUsername) && enteredPassword.equals(savedPassword)) {
+                    handleLogin();
                     // Navigate to the next page (MainActivity)
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -53,8 +60,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
 
     private void handleLogin() {
         // Save the username and password to SharedPreferences
@@ -75,6 +82,10 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove("password");
         editor.apply();
         Toast.makeText(this, "Account deleted!", Toast.LENGTH_SHORT).show();
+    }
+    private void openRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
 }

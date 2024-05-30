@@ -48,6 +48,23 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         this.hotelList = searchList;
         notifyDataSetChanged();
     }
+    public void filterHotels(int maxPrice, String rating, int numBeds, int numBaths, boolean wifiAvailable) {
+        hotelList.clear(); // Clear the current list
+
+        for (Hotel hotel : hotelList) {
+            int price = Integer.parseInt(hotel.getPrice().replaceAll("[^0-9]", "")); // Remove non-numeric characters from price
+            if (price <= maxPrice &&
+                    (rating.isEmpty() || hotel.getRating().equalsIgnoreCase(rating)) &&
+                    (numBeds == 0 || hotel.getBeds() == numBeds) &&
+                    (numBaths == 0 || hotel.getBaths() == numBaths) &&
+                    hotel.isWifi() == wifiAvailable) {
+                hotelList.add(hotel); // Add matching hotels to the filtered list
+            }
+        }
+
+        notifyDataSetChanged(); // Notify RecyclerView of data change
+    }
+
 
     static class HotelViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
